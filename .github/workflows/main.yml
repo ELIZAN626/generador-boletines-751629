@@ -71,12 +71,12 @@ jobs:
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
             
             # Limpiar contenedor anterior
-            docker stop app-container || true
-            docker rm app-container || true
+            docker stop emisor-container || true
+            docker rm emisor-container || true
             
             # Descargar imagen y correr
             docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest
-            docker run -d --name app-container -p 80:80 \
+            docker run -d --name emisor-container -p 80:80 \
               -e SQS_URL=${{ secrets.SQS_URL }} \
               -e BUCKET_NAME=${{ secrets.BUCKET_NAME }} \
               -e DYNAMO_TABLE=${{ secrets.DYNAMO_TABLE }} \
