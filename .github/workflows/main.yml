@@ -1,0 +1,39 @@
+name: CI/CD Generador Boletines
+
+on:
+  push:
+    branches: [ "main" ] # Se activa al subir cambios a main
+
+jobs:
+  # Actividad 2: Etapa de Build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalación de dependencias (Build)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+  # Actividad 3: Etapa de Docker
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login a ECR y Build Image
+        run: echo "Esperando configuración de ECR para Actividad 3"
+
+  # Actividad 4: Etapa de Deploy
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Despliegue en EC2
+        run: echo "Esperando configuración de EC2 para Actividad 4"
