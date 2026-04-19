@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 import boto3
 import uuid
@@ -6,9 +7,9 @@ import json
 app = FastAPI()
 
 # configuracion
-bucket_nombre = "practica-4-751629"
-cola_url = "https://sqs.us-east-1.amazonaws.com/515162739424/cola-boletines"
-region = "us-east-1"
+bucket_nombre = os.getenv("BUCKET_NAME")
+cola_url = os.getenv("SQS_URL")
+region = os.getenv("AWS_REGION", "us-east-1")
 
 s3 = boto3.client("s3", region_name=region)
 sqs = boto3.client("sqs", region_name=region)
